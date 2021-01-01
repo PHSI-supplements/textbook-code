@@ -20,7 +20,7 @@ int main() {
     printf("Based on the location of the least significant byte, your processor is ");
     if (lsb == bytes[0]) {
         printf("little endian.\n");
-    } else if (lsb == bytes[3]) {
+    } else if (lsb == bytes[sizeof(sonde) - 1]) {
         printf("big endian.\n");
     } else {
         printf("neither big- nor little endian, perhaps multibyte-swapped little endian.\n");
