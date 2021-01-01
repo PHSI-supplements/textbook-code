@@ -1,52 +1,100 @@
-# Prerequisites
-*.d
+# Mac file finder metadata
+.DS_Store
+# Windows file metadata
+._*
+# Thumbnail image caches
+Thumbs.db
+ethumbs.db
+# Emacs backup file
+*~
 
-# Object files
+# Common
+[Bb]in/
+[Bb]uild/
+[Oo]bj/
+[Oo]ut/
+[Tt]mp/
+[Xx]86/
+[Ii][Aa]32/
+[Xx]64/
+[Xx]86_64/
+[Xx]86-64/
+[Aa]rm
+[Aa]32
+[Tt]32
+[Aa]64
+*.tmp
+*.bak
+*.bk
+*.swp
+
+# Miscellaneous
+*.gcno
+
+# C files
 *.o
-*.ko
-*.obj
-*.elf
-
-# Linker output
-*.ilk
-*.map
-*.exp
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
 *.out
-*.app
-*.i*86
-*.x86_64
-*.hex
 
-# Debug files
-*.dSYM/
-*.su
-*.idb
+# JetBrains (IntelliJ IDEA, PyCharm, etc) files
+.idea/
+cmake-build-*/
+*.iml
+*.iws
+*.ipr
+
+# Eclipse files
+.settings/
+.project
+.classpath
+.buildpath
+.loadpath
+.factorypath
+local.properties
+
+# Visual Studio / VS Code files
+.vs*/
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*_i.c
+*_p.c
+*_h.h
+*.ilk
+*.meta
+*.obj
+*.iobj
+*.pch
 *.pdb
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp_proj
+*_wpftmp.csproj
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+ipch/
+*.aps
+*.ncb
+*.opensdf
+*.sdf
+*.cachefile
+*.psess
+*.vsp
+*.vspx
 
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+# Xcode files
+*.xcodeproj/
+xcuserdata/
+.build/
