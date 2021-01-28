@@ -29,8 +29,8 @@ void average_neighbors(double *matrix, int width, int height) {
         for (int j = 0; j < height; j++) {
             above = matrix[(i - 1) * width +  j];
             below = matrix[(i + 1) * width +  j];
-             left = matrix[i       * width + (j - 1)];
-            right = matrix[i       * width + (j + 1)];
+             left = matrix[ i      * width + (j - 1)];
+            right = matrix[ i      * width + (j + 1)];
             double neighbor_average = (above + below + left + right) / 4;
             matrix[i * width + j] = (matrix[i * width + j] + neighbor_average) / 2;
         }

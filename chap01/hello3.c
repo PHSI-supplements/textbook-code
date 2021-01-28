@@ -7,10 +7,10 @@
 void display_sentence();
 
 int main(void) {
-	display_sentence();
-	return 0;
+    display_sentence();
+    return 0;
 }
 
 void display_sentence() {
-	printf("Hello World.\n");
+    printf("Hello World.\n");
 }

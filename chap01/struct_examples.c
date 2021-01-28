@@ -6,8 +6,8 @@
 #include "enum_examples.h"
 
 struct hat {
-	int size;
-	char *color;
+    int size;
+    char *color;
 };
 
 typedef enum days day;
@@ -19,15 +19,15 @@ typedef struct {
 } card;
 
 void displayHat( struct hat *the_hat ) {
-	printf( "Size %d %s hat.\n", (*the_hat).size, the_hat->color);
+    printf( "Size %d %s hat.\n", (*the_hat).size, the_hat->color);
 }
 
 int main() {
-	struct hat h1, h2;
-	h1.size = 3;
-	h1.color = "blue";
-	printf("size=%d, color=%s\n",h1.size, h1.color);
-	displayHat(&h1);
+    struct hat h1, h2;
+    h1.size = 3;
+    h1.color = "blue";
+    printf("size=%d, color=%s\n",h1.size, h1.color);
+    displayHat(&h1);
 
     day d = MONDAY;
     headwear h = {.size = 9, .color = "brown"};

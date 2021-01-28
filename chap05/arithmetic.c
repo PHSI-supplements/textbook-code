@@ -8,31 +8,31 @@
  */
 
 long leaq_demo3(long i, long j) {
-	return i+j;
+    return i+j;
 }
 
 long leaq_demo2(long i) {
-	return 48*i;
+    return 48*i;
 }
 
 long *leaq_demo1(long *i, long j) {
-	return &i[j];
+    return &i[j];
 }
 
 long add_demo(long *i, long j) {
-	return *i + j;
+    return *i + j;
 }
 
 long sub_demo(long *i, long j) {
-	return *i - j;
+    return *i - j;
 }
  
 long imul_demo(long *i, long j) {
-	return *i * j;
+    return *i * j;
 }
 
 long idiv_demo(long *i, long j) {
-	return *i / j;
+    return *i / j;
 }
 
 long iterate(long *i, long max) {
@@ -95,7 +95,7 @@ long shifted_not_demo2(long i) {
 
 
 int main() {
-	return 0;
+    return 0;
 }
 
 #pragma clang diagnostic pop

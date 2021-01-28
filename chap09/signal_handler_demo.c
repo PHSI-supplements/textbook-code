@@ -2,6 +2,8 @@
  * signal_handler_demo.c (c) 2018-20 Christopher A. Bohn
  */
 
+// Need to expose Single UNIX Speccification definitions, including sigset
+#define _XOPEN_SOURCE 700
 #include <stdio.h>
 #include <signal.h>
 #include <sys/time.h>
