@@ -28,7 +28,7 @@ public class EndianTest {
         int rangeStop = rangeStart + dataLength;    // we are assuming (reasonably so) that the data is < 127 bytes
         bytes = Arrays.copyOfRange(bytes, rangeStart, rangeStop);
         System.out.println("Value 0x" + Long.toHexString(sonde) +
-                "serialized and placed in " + byteStream.getClass().getSimpleName());
+                " serialized and placed in " + byteStream.getClass().getSimpleName());
         for (int i = bytes.length - 1; i >= 0; i--) {
             System.out.println("\tbyte " + i + ": " + String.format("%02x", bytes[i]));
         }
