@@ -2,9 +2,10 @@
  * signal_handler_demo.c (c) 2018-20 Christopher A. Bohn
  */
 
-// Need to expose Single UNIX Speccification definitions, including sigset
+// Need to expose Single UNIX Specification definitions, including sigset
 #define _XOPEN_SOURCE 700
 #include <stdio.h>
+#include <stdlib.h>
 #include <signal.h>
 #include <sys/time.h>
 
@@ -19,8 +20,9 @@ void memory_access_handler(int signal);
 int main() {
     set_timer(1);
     sigset(SIGVTALRM, alarm_handler);
-    count_loop_iterations(20);
+    sigset(SIGINT, alarm_handler);
     sigset(SIGSEGV, memory_access_handler);
+    count_loop_iterations(200);
     int *pointer;
     pointer = 0;
     printf("%d", *pointer);
@@ -47,5 +49,15 @@ void set_timer(int seconds) {
 }
 
 void alarm_handler(int signal) {
-    printf("    ****    Interrupted by Signal %d (SIGVTALRM)    ****\n", signal);
+    if (signal == 26)
+        printf("    ****    Interrupted by Signal %d (SIGVTALRM)    ****\n", signal);
+    else if (signal == 2)
+        printf("    ****    Interrupted by Signal %d (SIGINT)    ****\n", signal);
+    else
+        printf("    ****    Interrupted by Signal %d (OTHER)    ****\n", signal);
 }
+
+void memory_access_handler( int signal ) {
+    printf("You tried to access memory you shouldn’t. Naughty, naughty!\n");
+    exit(1);
+} 

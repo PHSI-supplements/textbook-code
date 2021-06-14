@@ -88,8 +88,8 @@ void mutex_threaded_code() {
 int main() {
     clock_t start = clock();
 //    sequential_code();
-//    threaded_code();
-    mutex_threaded_code();
+    threaded_code();
+//    mutex_threaded_code();
     clock_t stop = clock();
     printf("Completed in %f seconds", (double)(stop-start)/CLOCKS_PER_SEC);
     return 0;
