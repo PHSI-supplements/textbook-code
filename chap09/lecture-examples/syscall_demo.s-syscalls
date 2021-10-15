@@ -1,0 +1,36 @@
+	.file	"syscall_demo.c"
+	.text
+	.section	.rodata.str1.1,"aMS",@progbits,1
+.LC0:
+	.string	"Before fork.\n"
+.LC1:
+	.string	"PID = %d\n"
+	.text
+	.globl	main
+	.type	main, @function
+main:
+.LFB11:
+	.cfi_startproc
+	subq	$8, %rsp
+	.cfi_def_cfa_offset 16
+	movq	$1, %rdi
+	movq	$.LC0, %rsi
+	movq	$13, %rdx
+	movq	$1, %rax	# syscall number for write
+	syscall
+	movq	$57, %rax	# syscall number for fork
+	syscall
+	call	getpid
+	movl	%eax, %esi
+	movl	$.LC1, %edi
+	movl	$0, %eax
+	call	printf
+	movl	$0, %eax
+	addq	$8, %rsp
+	.cfi_def_cfa_offset 8
+	ret
+	.cfi_endproc
+.LFE11:
+	.size	main, .-main
+	.ident	"GCC: (SUSE Linux) 7.5.0"
+	.section	.note.GNU-stack,"",@progbits
