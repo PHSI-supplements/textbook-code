@@ -13,7 +13,7 @@
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 const int number_of_pairs = 2;
 const int number_of_iterations = 1000000;
-int shared_variable = 0;
+volatile int shared_variable = 0;
 
 void *incrementer(void *ignored);
 void *decrementer(void *ignored);
