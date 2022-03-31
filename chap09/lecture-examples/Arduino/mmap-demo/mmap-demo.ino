@@ -1,14 +1,10 @@
 #include "cowpi.h"
 
-struct gpio_registers *gpio = (struct gpio_registers *)(IObase + 3);
+cowpi_ioPortRegisters *gpio = (cowpi_ioPortRegisters *)(cowpi_IObase + 3);
 uint8_t left_switch, right_switch, left_button, right_button;
 
 void setup() {
-  gpio[A0_A5].direction   &= 0b11001111;  // Even though it's default, make sure A4 and A5 are set to input
-  gpio[A0_A5].output      &= 0b11001111;  // Even though it's default, make sure A4 and A5 are set to Hi-Z
-  gpio[D8_D13].direction  &= 0b11111100;  // Even though it's default, make sure D8 and D9 are set to input
-  gpio[D8_D13].output     |= 0b00000011;  // Pull D8 and D9 high
-  gpio[D8_D13].direction  |= 0b00110000;  // Set D12 and D13 to output
+  cowpi_setup(0);   // nothing special needed for simple I/O examples
 }
 
 void loop() {

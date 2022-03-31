@@ -4,7 +4,7 @@
 void go_to_sleep();
 void waken();
 
-volatile uint8_t *timer_interrupt_mask = IObase + 0x4E;
+volatile uint8_t *timer_interrupt_mask = cowpi_IObase + 0x4E;
 
 uint32_t time;
 char count = 0;
@@ -12,9 +12,7 @@ bool cycled = true;
 
 void setup() {
   Serial.begin(9600);
-  pinMode(2, INPUT);
-  pinMode(12, OUTPUT);
-  pinMode(13, OUTPUT);
+  cowpi_setup(0);
 }
 
 void loop() {
