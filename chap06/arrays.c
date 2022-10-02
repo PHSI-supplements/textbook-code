@@ -13,6 +13,10 @@ int get_value(int *foo, long j) {
     return foo[j];
 }
 
+int nested_array0(long col, int array[][col], long i, long j) {
+    return array[i][j];
+}
+
 long nested_array1(long i, long j) {
     long bar[5][7];
     long x=bar[i][j];
