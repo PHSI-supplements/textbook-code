@@ -1,0 +1,139 @@
+{
+  "version": 1,
+  "author": "Chris Bohn",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-pi-pico",
+      "id": "pico",
+      "top": -129.73,
+      "left": -114.44,
+      "rotate": 270,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-membrane-keypad",
+      "id": "keypad1",
+      "top": -416.11,
+      "left": 90.4,
+      "attrs": {
+        "keys": [ "1", "2", "3", "A", "4", "5", "6", "B", "7", "8", "9", "C", "F", "0", "E", "D" ]
+      }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "keypadText",
+      "top": -467.09,
+      "left": 80.64,
+      "attrs": { "text": "press any key with mouse\nafter that, use mouse or keyboard key" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led1",
+      "top": -230,
+      "left": -105.37,
+      "attrs": { "color": "orange", "flip": "1" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led2",
+      "top": -230,
+      "left": 9.46,
+      "attrs": { "color": "green" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn1",
+      "top": -310,
+      "left": -32.51,
+      "rotate": 90,
+      "attrs": { "color": "yellow", "key": "ArrowRight" }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn2",
+      "top": -310,
+      "left": -98.57,
+      "rotate": 90,
+      "attrs": { "color": "blue", "key": "ArrowLeft" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "buttonText",
+      "top": -395.53,
+      "left": -102.36,
+      "attrs": { "text": "click with mouse, or" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "leftButtonText",
+      "top": -370,
+      "left": -85.5,
+      "attrs": { "text": "left\narrow" }
+    },
+    {
+      "type": "wokwi-text",
+      "id": "rightButtonText",
+      "top": -370,
+      "left": -17.76,
+      "attrs": { "text": "right\narrow" }
+    },
+    { "type": "wokwi-slide-switch", "id": "sw1", "top": -300, "left": -169.47, "attrs": {} },
+    { "type": "wokwi-slide-switch", "id": "sw2", "top": -300, "left": -225.5, "attrs": {} },
+    {
+      "type": "wokwi-text",
+      "id": "switchText",
+      "top": -348.53,
+      "left": -240.96,
+      "attrs": { "text": "click with mouse" }
+    },
+    {
+      "type": "board-ssd1306",
+      "id": "oled1",
+      "top": -465.1,
+      "left": -232.41,
+      "attrs": { "i2cAddress": "0x3c" }
+    }
+  ],
+  "connections": [
+    [ "keypad1:R1", "pico:4", "gray", [ "v22.05", "h-136.72" ] ],
+    [ "keypad1:R2", "pico:5", "gray", [ "v26.88", "h-2.59" ] ],
+    [ "keypad1:R3", "pico:6", "gray", [ "v33.05", "h-26.81" ] ],
+    [ "keypad1:R4", "pico:7", "gray", [ "v40.17", "h-54.83" ] ],
+    [ "keypad1:C4", "pico:A3", "gray", [ "v128.97", "h-281.37" ] ],
+    [ "keypad1:C3", "pico:A2", "gray", [ "v137.01", "h-281.22" ] ],
+    [ "keypad1:C2", "pico:A1", "gray", [ "v145.05", "h-281.07" ] ],
+    [ "keypad1:C1", "pico:A0", "gray", [ "v153.1", "h-281.17" ] ],
+    [ "led2:C", "led1:C", "black", [ "v0" ] ],
+    [ "led2:A", "pico:12", "green", [ "v117.88", "h-30.15" ] ],
+    [ "led1:A", "pico:13", "orange", [ "v112.68", "h-19.62", "v123.93", "h28.92" ] ],
+    [ "led2:C", "btn1:2.r", "black", [ "v-0.87", "h-19.57" ] ],
+    [ "led1:C", "pico:GND.6", "black", ["v50", "h10"] ],
+    [ "btn2:1.r", "btn1:2.r", "black", [ "v0" ] ],
+    [ "btn2:2.r", "pico:8", "blue", [ "v20.65", "h30.15", "v176.81", "h-0.25" ] ],
+    [ "btn1:1.r", "pico:9", "yellow", [ "v20.65", "h0.34", "v169.36", "h-65.1" ] ],
+    [ "btn2:1.r", "sw1:1", "black", [ "v12.55", "h-27.58" ] ],
+    [ "sw1:1", "sw2:1", "black", [ "v27.99", "h-27.32" ] ],
+    [ "sw1:2", "pico:10", "violet", [ "v213.78", "h91.6" ] ],
+    [ "sw2:2", "pico:11", "#8f4814", [ "v226.33", "h138.03" ] ],
+    [ "pico:GP20", "led2:A", "green", [ "v-65.62", "h29.49" ] ],
+    [ "pico:GP21", "led1:A", "orange", [ "v-65.62", "h-27.73" ] ],
+    [ "btn2:2.r", "pico:GP2", "blue", [ "v97.42", "h-132.04", "v187.94", "h52.62" ] ],
+    [ "btn1:1.r", "pico:GP3", "gold", [ "v107.44", "h-201.23", "v170.4", "h64.32" ] ],
+    [ "sw2:2", "pico:GP14", "#8f4814", [ "v159.03", "h257.14", "v135.31", "h-32.58" ] ],
+    [ "sw1:2", "pico:GP15", "gray", [ "v146.5", "h211.97", "v136.15", "h-35.08" ] ],
+    [ "keypad1:R1", "pico:GP6", "violet", [ "v118.15", "h-155.29" ] ],
+    [ "keypad1:R2", "pico:GP7", "violet", [ "v129", "h-35.82" ] ],
+    [ "keypad1:R3", "pico:GP8", "violet", [ "v138.19", "h-22.77" ] ],
+    [ "keypad1:R4", "pico:GP9", "violet", [ "v144.04", "h-28.09" ] ],
+    [ "keypad1:C1", "pico:GP10", "white", [ "v154.9", "h-68.5" ] ],
+    [ "keypad1:C2", "pico:GP11", "white", [ "v164.92", "h-44.59" ] ],
+    [ "keypad1:C3", "pico:GP12", "white", [ "v173.27", "h-43.48" ] ],
+    [ "keypad1:C4", "pico:GP13", "white", [ "v180.79", "h-28.17" ] ],
+    [ "pico:GP4", "oled1:SDA", "cyan", [ "v48.32", "h-178.14", "v-542.28", "h126.82" ] ],
+    [ "pico:GP5", "oled1:SCL", "magenta", [ "v63.09", "h-173.03", "v-550.47", "h-60.84" ] ],
+    [ "oled1:VCC", "pico:3V3", "red", [ "v-18.65", "h-80.43", "v365.54", "h141.43" ] ],
+    [ "oled1:GND", "pico:GND.8", "black", [ "v-12.23", "h-58.67", "v367.62", "h109.92" ] ]
+  ],
+  "dependencies": {}
+}
