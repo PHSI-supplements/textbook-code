@@ -1,7 +1,3 @@
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wformat"
-#pragma clang diagnostic ignored "-Wunknown-pragmas"
-#pragma ide diagnostic ignored "UnreachableCode"
 /*
  * endian_test.c (c) 2018-20 Christopher A. Bohn
  */
@@ -12,8 +8,8 @@
 int main() {
     uint64_t sonde = 0x0123456789ABCDEF;
     uint8_t lsb = sonde & 0xFF;
-    uint8_t *bytes = (uint8_t *)&sonde;
-    printf("Value 0x%lx is at address %p\n", sonde, &sonde);
+    uint8_t *bytes = (uint8_t *) (&sonde);
+    printf("Value %#llx is at address %p\n", sonde, &sonde);
     for (int i = sizeof(sonde) - 1; i >= 0; i--) {
         printf("\t%p: %02x\n", bytes + i, bytes[i]);
     }
@@ -41,5 +37,3 @@ int main() {
             printf("neither big- nor little- nor pdp-endian.\n");
     }
 }
-
-#pragma clang diagnostic pop
