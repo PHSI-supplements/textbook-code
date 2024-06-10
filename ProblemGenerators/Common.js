@@ -44,8 +44,8 @@ const Operations = {
 const OpSymbols = new Map([
     [Operations.Addition, "+"],
     [Operations.Subtraction, "-"],
-    [Operations.Multiplication, "*"],
-    [Operations.Division, "/"],
+    [Operations.Multiplication, "×"],
+    [Operations.Division, "÷"],
     [Operations.Invert, "~"],
     [Operations.And, "&"],
     [Operations.Or, "|"],
@@ -54,6 +54,11 @@ const OpSymbols = new Map([
     [Operations.LogicalRightShift, ">>"],
     [Operations.ArithmeticRightShift, ">>"],
 ]);
+
+const NumberEncoding = {
+    UnsignedInteger: Symbol.for("UnsignedInteger"),
+    TwosComplement: Symbol.for("TwosComplement"),
+}
 
 function insertDigitSeparators(valueString, groupingSize) {
     let valueCharacters = valueString.split('');

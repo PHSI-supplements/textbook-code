@@ -6,7 +6,7 @@
 
 int main() {
     printf("Iterating over the lower-case letters...\n");
-    for (char c='a'; c<='z'; c++)
+    for (char c = 'a'; c <= 'z'; c++)
         printf("%c ", c);
     printf("\n");
 }
