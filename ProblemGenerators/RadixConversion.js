@@ -347,3 +347,198 @@ class GuidedConversionFromDecimal extends RadixConversionProblem {
         }
     }
 }
+
+
+class FractionConversionProblem {
+    constructor(maximumIntegerBits, maximumFractionBits, groupingSize, elementPrefix) {
+        if (this.constructor === FractionConversionProblem) {
+            alert("FractionConversionProblem should be treated as an abstract class.");
+            throw new Error("FractionConversionProblem should be treated as an abstract class.");
+        }
+        this.maximumIntegerBits = maximumIntegerBits;
+        this.maximumFractionBits = maximumFractionBits;
+        this.groupingSize = groupingSize;
+        this.mapElements(elementPrefix);
+        this.generateProblem();
+    }
+
+    mapElements(elementPrefix) {
+        this.problemArea = document.getElementById(elementPrefix + "_problem");
+        this.feedbackArea = document.getElementById(elementPrefix + "_feedback");
+        this.checkButton = document.getElementById(elementPrefix + "_check");
+        let tryAgainButton = document.getElementById(elementPrefix + "_again");
+        this.checkButton.onclick = this.checkAnswer.bind(this);
+        tryAgainButton.onclick = this.generateProblem.bind(this);
+    }
+
+    displayProblem() {
+        this.problemArea.innerHTML = "&nbsp;";
+        this.feedbackArea.innerHTML = "&nbsp;";
+    }
+
+    generateProblem() {
+        this.integer = Math.floor(Math.random() * ((1 << this.maximumIntegerBits) - 1)) + 1;
+        this.numberOfFractionBits = Math.floor(Math.random() * (this.maximumFractionBits - 1)) + 1;
+        this.denominator = 1 << this.numberOfFractionBits;
+        this.numerator = Math.floor(Math.random() * this.denominator);
+        this.fraction = this.numerator / this.denominator;
+        this.displayProblem();
+    }
+
+    checkAnswer(event) {
+        alert("checkAnswer needs to be implemented in IEEE754Problem's subclasses.");
+        throw new Error("checkAnswer needs to be implemented in IEEE754Problem's subclasses.");
+    }
+}
+
+
+class FractionToFixedPointProblem extends FractionConversionProblem {
+    constructor(maximumIntegerBits, maximumFractionBits, groupingSize, elementPrefix) {
+        super(maximumIntegerBits, maximumFractionBits, groupingSize, elementPrefix);
+    }
+
+    mapElements(elementPrefix) {
+        super.mapElements(elementPrefix);
+        this.answerField = document.getElementById(elementPrefix + "_answer");
+        this.answerField.onkeydown = this.handleKeyPress.bind(this);
+    }
+
+    displayProblem() {
+        super.displayProblem();
+        this.problemArea.innerHTML = `Convert (${this.integer} <sup>${this.numerator}</sup>&frasl;<sub>${this.denominator}</sub>)<sub>10</sub> from a decimal compound fraction to a binary fixed point number.`;
+        this.answerField.value = "";
+    }
+
+    checkAnswer(event) {
+        let answerString = this.answerField.value;
+        let answer = parseBinaryFloat(answerString.replaceAll("'", ""));
+        if (answer === this.integer + this.fraction) {
+            this.feedbackArea.innerHTML = "Correct!";
+        } else if (isNaN(answer)) {
+            this.feedbackArea.innerHTML = `${answerString} is not a valid base-2 binary fixed point number.`;
+        } else {
+            let components = answerString.replaceAll("'", "").split(".");
+            let integer = parseInt(components[0], 2);
+            let fraction = parseInt(components[1], 2) / this.denominator;
+            if (integer === this.integer && fraction === this.fraction) {
+                this.feedbackArea.innerHTML = `The fractional portion should be ${components[1].padStart(this.numberOfFractionBits, "0")}, not ${components[1]}. Remember that ${this.denominator} = 2<sup>${this.numberOfFractionBits}</sup>, so you need to use ${this.numberOfFractionBits} bits in the fractional portion of the binary fixed point number.`
+            } else {
+                this.feedbackArea.innerHTML = `${answerString}<sub>2</sub> is not correct.`;
+            }
+        }
+    }
+
+    handleKeyPress(event) {
+        if (event.keyCode === 13) {
+            this.checkButton.click();
+        } else if (event.key.length === 1 && event.key !== '\'' && event.key !== '.') {
+            let digit = parseInt(event.key.toUpperCase(), 2);
+            if (isNaN(digit)) {
+                this.feedbackArea.innerHTML = `${event.key} is not a base-2 digit.`;
+                setTimeout(() => {
+                    let partialAnswer = this.answerField.value;
+                    this.answerField.value = partialAnswer.substring(0, partialAnswer.length - 1);
+                    this.feedbackArea.innerHTML = "&nbsp;";
+                }, 1000);
+            }
+        }
+    }
+}
+
+
+class FixedPointToFractionProblem extends FractionConversionProblem {
+    constructor(maximumIntegerBits, maximumFractionBits, groupingSize, elementPrefix) {
+        super(maximumIntegerBits, maximumFractionBits, groupingSize, elementPrefix);
+    }
+
+    mapElements(elementPrefix) {
+        super.mapElements(elementPrefix);
+        this.integerField = document.getElementById(elementPrefix + "_integer");
+        this.numeratorField = document.getElementById(elementPrefix + "_numerator");
+        this.denominatorField = document.getElementById(elementPrefix + "_denominator");
+        this.integerField.onkeydown = this.handleKeyPress.bind(this);
+        this.numeratorField.onkeydown = this.handleKeyPress.bind(this);
+        this.denominatorField.onkeydown = this.handleKeyPress.bind(this);
+    }
+
+    displayProblem() {
+        super.displayProblem();
+        let integerString = insertDigitSeparators(this.integer.toString(2), this.groupingSize);
+        let fractionString = insertDigitSeparators("." + this.fraction.toString(2).substring(2).padEnd(this.numberOfFractionBits, "0"), this.groupingSize);
+        this.problemArea.innerHTML = `Convert ${integerString}${fractionString}<sub>2</sub> from a binary fixed point number to a decimal compound fraction.`;
+        this.integerField.value = "";
+        this.numeratorField.value = "";
+        this.denominatorField.value = "";
+    }
+
+    checkAnswer(event) {
+        let integerString = this.integerField.value;
+        let numeratorString = this.numeratorField.value;
+        let denominatorString = this.denominatorField.value;
+        let integerStringWithoutSeparators = integerString.replaceAll("'", "");
+        let numeratorStringWithoutSeparators = numeratorString.replaceAll("'", "");
+        let denominatorStringWithoutSeparators = denominatorString.replaceAll("'", "");
+        let integer = parseInt(integerStringWithoutSeparators, 10);
+        let numerator = parseInt(numeratorStringWithoutSeparators, 10);
+        let denominator = parseInt(denominatorStringWithoutSeparators, 10);
+        if (integerString.length === 0 || numeratorString.length === 0 || denominatorString.length === 0) {
+            this.feedbackArea.innerHTML = "Fill in all three fields before checking the answer.";
+        } else if (integer === this.integer && numerator === this.numerator && denominator === this.denominator) {
+            this.feedbackArea.innerHTML = "Correct!";
+        } else if (integer === this.integer && numerator / denominator === this.fraction) {
+            this.feedbackArea.innerHTML = "Your answer is mathematically correct, but it ";
+            if (denominator < this.denominator) {
+                this.feedbackArea.innerHTML += "loses some ";
+            } else {
+                this.feedbackArea.innerHTML += "gains extra ";
+            }
+            this.feedbackArea.innerHTML += `precision with a denominator of ${denominator} instead of ${this.denominator}.`;
+        } else {
+            let numberOfCorrectFields =
+                ((integer === this.integer) ? 1 : 0)
+                + ((numerator === this.numerator) ? 1 : 0)
+                + ((denominator === this.denominator) ? 1 : 0);
+            if (numberOfCorrectFields === 0) {
+                this.feedbackArea.innerHTML = `(${integerString} <sup>${numeratorString}</sup>&frasl;<sub>${denominatorString}</sub>)<sub>10</sub> is not correct.`
+            } else {
+                let numberOfRemainingCorrectFields = numberOfCorrectFields;
+                this.feedbackArea.innerHTML = "Your ";
+                if (integer === this.integer) {
+                    this.feedbackArea.innerHTML += "integer ";
+                    numberOfRemainingCorrectFields--;
+                }
+                if (numerator === this.numerator) {
+                    if (numberOfRemainingCorrectFields !== numberOfCorrectFields) {
+                        this.feedbackArea.innerHTML += "and ";
+                    }
+                    this.feedbackArea.innerHTML += "numerator ";
+                    numberOfRemainingCorrectFields--;
+                }
+                if (denominator === this.denominator) {
+                    if (numberOfRemainingCorrectFields !== numberOfCorrectFields) {
+                        this.feedbackArea.innerHTML += "and ";
+                    }
+                    this.feedbackArea.innerHTML += "denominator ";
+                    numberOfRemainingCorrectFields--;
+                }
+                this.feedbackArea.innerHTML += (numberOfCorrectFields === 1 ? "is" : "are") + " correct.";
+            }
+        }
+    }
+
+    handleKeyPress(event) {
+        if (event.keyCode === 13) {
+            this.checkButton.click();
+        } else if (event.key.length === 1 && event.key !== '\'' && event.key !== ',') {
+            let digit = parseInt(event.key.toUpperCase(), 10);
+            if (isNaN(digit)) {
+                this.feedbackArea.innerHTML = `${event.key} is not a base-10 digit.`;
+                setTimeout(() => {
+                    let partialAnswer = event.target.value;
+                    event.target.value = partialAnswer.substring(0, event.target.length - 1);
+                    this.feedbackArea.innerHTML = "&nbsp;";
+                }, 1000);
+            }
+        }
+    }
+}
