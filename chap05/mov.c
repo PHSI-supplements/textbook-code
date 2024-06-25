@@ -1,11 +1,5 @@
-﻿#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunknown-pragmas"
-#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
-#pragma clang diagnostic ignored "-Wuninitialized"
-#pragma ide diagnostic ignored "readability-non-const-parameter"
-
-/*
- * mov.c (c) 2018-20 Christopher A. Bohn
+﻿/*
+ * mov.c (c) 2018-24 Christopher A. Bohn
  */
 
 long mov_demo1(long i) {
@@ -17,17 +11,17 @@ int mov_demo2() {
     return i;
 }
 
-long mov_demo3(long *i) {
+long load_demo(long *i) {
     return *i;
 }
 
-long *mov_demo4() {
+long *store_demo() {
     long *i;
     *i = 3;
     return i;
 }
 
-long *mov_demo5(long *i) {
+long *scalar_demo(long *i) {
     long *j;
     *j = *i;
     return j;
@@ -38,40 +32,40 @@ struct foo {
     long j;
 };
 
-long mov_demo6(struct foo *bar) {
+long struct_demo(struct foo *bar) {
     return bar->j;
 }
 
-long mov_demo7(long *i, long j) {
+long array_demo1(long *i, long j) {
     return i[j];
 }
 
-long mov_demo8(long *i) {
+long array_demo2(long *i) {
     return i[3];
 }
 
-long mov_demo9(long *i, int j) {
+long array_demo3(long *i, int j) {
     return i[j];
 }
 
-long mov_demo10(long *i, unsigned int j) {
+long array_demo4(long *i, unsigned int j) {
     return i[j];
 }
 
-int mov_demo11(int *i, int j) {
+int array_demo5(int *i, int j) {
     return i[j];
 }
 
-long mov_demo12(struct foo *bar, long j) {
+long array_of_struct_demo(struct foo *bar, long j) {
     struct foo baz = bar[j];
     return baz.i;
 }
 
-long mov_demo13(char *i, int j) {
+long string_demo1(char *i, int j) {
     return i[j];
 }
 
-long mov_demo14(char *i, unsigned int j) {
+long string_demo2(char *i, unsigned int j) {
     return i[j];
 }
 
@@ -91,33 +85,16 @@ long othershift(long i, long j) {
     return i + (j >> 12);
 }
 
-long ldr_demo(long *i) {
+short load_short_demo(short *i) {
     return *i;
 }
 
-short ldrh_demo(short *i) {
+char load_byte_demo(char *i) {
     return *i;
 }
 
-char ldrb_demo(char *i) {
-    return *i;
-}
-
-long *str_demo1(long i) {
-    long *j;
-    *j = i;
-    return j;
-}
-
-char *stb_demo2(char i) {
+char *store_byte_demo(char i) {
     char *j;
     *j = i;
     return j;
 }
-
-
-int main() {
-    return 0;
-}
-
-#pragma clang diagnostic pop

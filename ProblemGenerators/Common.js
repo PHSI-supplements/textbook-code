@@ -61,6 +61,13 @@ const NumberEncoding = {
     QuarterPrecision: Symbol.for("QuarterPrecision"),
 }
 
+const InstructionSet = {
+    IA32: Symbol.for("IA32"),
+    x86_64: Symbol.for("x86_64"),
+    A64: Symbol.for("A64"),
+    T32: Symbol.for("T32"),
+}
+
 function insertDigitSeparators(valueString, groupingSize) {
     let valueCharacters = valueString.split('');
     let radixPoint = valueCharacters.findIndex((c) => c === '.');

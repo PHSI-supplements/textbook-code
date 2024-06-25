@@ -1,0 +1,165 @@
+<!--
+ -- Random Problem Generators (c) 2020-24 Christopher A. Bohn
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chapter 5 Practice Problems</title>
+</head>
+<body>
+    <h1>Chapter 5 Randomly-Generated Practice Problems</h1>
+
+    <div id="x86_addressing_mode">
+        <h2>x86-64 Addressing Mode Practice</h2>
+        <p>Suppose that these are the contents of selected registers and memory locations:</p>
+        <table id="x86_addr_data"></table>
+        <p>Suppose this were an assembly code operand: <span id="x86_addr_problem"></span></p>
+        <p>What is the address generated, and what is the content of that memory location?</p>
+        <table>
+            <tr>
+                <td>Mem[0x<input type="text" id="x86_addr_address">]</td>
+                <td>= 0x<input type="text" id="x86_addr_content"></td>
+            </tr>
+            <tr>
+                <td align="center">(address)</td>
+                <td align="center">(content)</td>
+            </tr>
+            <tr>
+                <td align="right">
+                    <input type="button" id="x86_addr_check" value="Check Answer">
+                </td>
+                <td align="left">
+                    <input type="button" id="x86_addr_again" value="Try Another Example">
+                </td>
+            </tr>
+        </table>
+        <p id="x86_addr_feedback"></p>
+    </div>
+
+    <div id="arm_addressing_mode">
+        <h2>Arm64 Addressing Mode Practice</h2>
+        <p>Suppose that these are the contents of selected registers and memory locations:</p>
+        <table id="arm_addr_data"></table>
+        <p>Suppose this were an assembly code operand: <span id="arm_addr_problem"></span></p>
+        <p>What is the address generated, and what is the content of that memory location?</p>
+        <table>
+            <tr>
+                <td>Mem[0x<input type="text" id="arm_addr_address">]</td>
+                <td>= 0x<input type="text" id="arm_addr_content"></td>
+            </tr>
+            <tr>
+                <td align="center">(address)</td>
+                <td align="center">(content)</td>
+            </tr>
+            <tr>
+                <td align="right">
+                    <input type="button" id="arm_addr_check" value="Check Answer">
+                </td>
+                <td align="left">
+                    <input type="button" id="arm_addr_again" value="Try Another Example">
+                </td>
+            </tr>
+        </table>
+        <p id="arm_addr_feedback"></p>
+    </div>
+
+    <div id="x86_instruction_practice">
+        <h2>x86-64 Practice with Assembly Instructions</h2>
+        <p>Suppose that these are the contents of selected registers and memory locations:</p>
+        <table id="x86_instr_data"></table>
+        <p>Consider this assembly code instruction:&nbsp;&nbsp;&nbsp;<span id="x86_instr_problem"></span></p>
+        <table>
+            <tr>
+                <td>What is the destination?</td>
+                <td align="right"><span id="x86_instr_destination_type"></span></td>
+                <td align="right"><span id="x86_instr_destination_prefix"></span><input type="text" id="x86_instr_destination"></span></td>
+            </tr>
+            <tr>
+                <td>What is the content of the destination<br>after the instruction executes?</td>
+                <td></td>
+                <td align="right">0x<input type="text" id="x86_instr_content"></td>
+            </tr>
+        </table>
+        <input type="button" id="x86_instr_check" value="Check Answer">
+        <input type="button" id="x86_instr_again" value="Try Another Example">
+        <p id="x86_instr_feedback"></p>
+    </div>
+
+    <div id="arm_instruction_practice">
+        <h2>Arm64 Practice with Assembly Instructions</h2>
+        <p>Suppose that these are the contents of selected registers and memory locations:</p>
+        <table id="arm_instr_data"></table>
+        <p>Consider this assembly code instruction:&nbsp;&nbsp;&nbsp;<span id="arm_instr_problem"></span></p>
+        <table>
+            <tr>
+                <td>What is the destination?</td>
+                <td align="right"><span id="arm_instr_destination_type"></span></td>
+                <td align="right"><span id="arm_instr_destination_prefix"></span><input type="text" id="arm_instr_destination"><span id="arm_instr_destination_suffix"></span></td>
+            </tr>
+            <tr>
+                <td>What is the content of the destination<br>after the instruction executes?</td>
+                <td></td>
+                <td align="right">0x<input type="text" id="arm_instr_content"></td>
+            </tr>
+        </table>
+        <input type="button" id="arm_instr_check" value="Check Answer">
+        <input type="button" id="arm_instr_again" value="Try Another Example">
+        <p id="arm_instr_feedback"></p>
+    </div>
+
+    <div id="selectable_addressing_mode">
+        <h2>Selectable Addressing Mode Practice</h2>
+        <p>Select an instruction set, and click on "Try Another Example"</p>
+        <input type="radio" id="selectable_addr_selection0" name="addressing_mode_ISA_selection" value="x86_64" checked>
+        <label for="selectable_addr_selection0">x86-64</label>
+        <input type="radio" id="selectable_addr_selection1" name="addressing_mode_ISA_selection" value="A64">
+        <label for="selectable_addr_selection1">Arm64</label>
+        <p>Suppose that these are the contents of selected registers and memory locations:</p>
+        <table id="selectable_addr_data"></table>
+        <p>Suppose this were an assembly code operand: <span id="selectable_addr_problem"></span></p>
+        <p>What is the address generated, and what is the content of that memory location?</p>
+        <table>
+            <tr>
+                <td>Mem[0x<input type="text" id="selectable_addr_address">]</td>
+                <td>= 0x<input type="text" id="selectable_addr_content"></td>
+            </tr>
+            <tr>
+                <td align="center">(address)</td>
+                <td align="center">(content)</td>
+            </tr>
+            <tr>
+                <td align="right">
+                    <input type="button" id="selectable_addr_check" value="Check Answer">
+                </td>
+                <td align="left">
+                    <input type="button" id="selectable_addr_again" value="Try Another Example">
+                </td>
+            </tr>
+        </table>
+        <p id="selectable_addr_feedback"></p>
+    </div>
+
+    <script src="Common.js"></script>
+    <script src="AssemblyProblems.js"></script>
+    <script>
+        let x86Addr;
+        let armAddr;
+        let selectAddr;
+        let x86Instr;
+        let armInstr
+
+        function init() {
+            x86Addr = new AddressingModeProblem(() => InstructionSet.x86_64, "x86_addr");
+            armAddr = new AddressingModeProblem(() => InstructionSet.A64, "arm_addr");
+            selectAddr = new AddressingModeProblem(selectInstructionSet, "selectable_addr");
+            x86Instr = new InstructionProblem(() => InstructionSet.x86_64, "x86_instr");
+            armInstr = new InstructionProblem(() => InstructionSet.A64, "arm_instr");
+        }
+
+        window.onload = init;
+    </script>
+
+</body>
+</html>

@@ -2,6 +2,8 @@
  * chap05/lecture-examples.c (c) 2021 Christopher A. Bohn
  */
 
+char add_chars(char a, char b);
+char add_shorts(short a, short b);
 long add_two_numbers(long a, long b);
 
 void add_and_save(long x, long y, long *destination) {
@@ -10,14 +12,15 @@ void add_and_save(long x, long y, long *destination) {
 }
 
 int demonstrate_suffixes() {
-    char c = 1+2;
-    short s = 3+4;
-    int i = 5+6;
-    long l = 7+8;
+    char c = 1 + 2;
+    short s = 3 + 4;
+    int i = 5 + 6;
+    long l = 7 + 8;
 }
 
 int demonstrate_promotion() {
     char c = add_chars(1, 2);
+    char d = add_chars(5, 6);
     short s = add_shorts(3, 4);
     c = c + d;
     s = s | c;
