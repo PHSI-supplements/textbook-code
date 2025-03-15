@@ -109,13 +109,15 @@
         <p id="arm_instr_feedback"></p>
     </div>
 
+<!--
+
     <div id="selectable_addressing_mode">
         <h2>Selectable Addressing Mode Practice</h2>
         <p>Select an instruction set, and click on "Try Another Example"</p>
         <input type="radio" id="selectable_addr_selection0" name="addressing_mode_ISA_selection" value="x86_64" checked>
         <label for="selectable_addr_selection0">x86-64</label>
         <input type="radio" id="selectable_addr_selection1" name="addressing_mode_ISA_selection" value="A64">
-        <label for="selectable_addr_selection1">Arm64</label>
+        <label for="selectable_addr_selection1">A64</label>
         <p>Suppose that these are the contents of selected registers and memory locations:</p>
         <table id="selectable_addr_data"></table>
         <p>Suppose this were an assembly code operand: <span id="selectable_addr_problem"></span></p>
@@ -141,21 +143,52 @@
         <p id="selectable_addr_feedback"></p>
     </div>
 
+    <div id="selectable_instruction_practice">
+        <h2>Selectable Practice with Assembly Instructions</h2>
+        <p>Select an instruction set, and click on "Try Another Example"</p>
+        <input type="radio" id="selectable_instr_selection0" name="instruction_practice_ISA_selection" value="x86_64" checked>
+        <label for="selectable_instr_selection0">x86-64</label>
+        <input type="radio" id="selectable_instr_selection1" name="instruction_practice_ISA_selection" value="A64">
+        <label for="selectable_instr_selection1">A64</label>
+        <p>Suppose that these are the contents of selected registers and memory locations:</p>
+        <table id="selectable_instr_data"></table>
+        <p>Consider this assembly code instruction:&nbsp;&nbsp;&nbsp;<span id="selectable_instr_problem"></span></p>
+        <table>
+            <tr>
+                <td>What is the destination?</td>
+                <td align="right"><span id="selectable_instr_destination_type"></span></td>
+                <td align="right"><span id="selectable_instr_destination_prefix"></span><input type="text" id="selectable_instr_destination"><span id="selectable_instr_destination_suffix"></span></td>
+            </tr>
+            <tr>
+                <td>What is the content of the destination<br>after the instruction executes?</td>
+                <td></td>
+                <td align="right">0x<input type="text" id="selectable_instr_content"></td>
+            </tr>
+        </table>
+        <input type="button" id="selectable_instr_check" value="Check Answer">
+        <input type="button" id="selectable_instr_again" value="Try Another Example">
+        <p id="selectable_instr_feedback"></p>
+    </div>
+
+-->
+
     <script src="Common.js"></script>
     <script src="AssemblyProblems.js"></script>
     <script>
         let x86Addr;
         let armAddr;
-        let selectAddr;
+        // let selectAddr;
         let x86Instr;
-        let armInstr
+        let armInstr;
+        // let selectInstr;
 
         function init() {
             x86Addr = new AddressingModeProblem(() => InstructionSet.x86_64, "x86_addr");
             armAddr = new AddressingModeProblem(() => InstructionSet.A64, "arm_addr");
-            selectAddr = new AddressingModeProblem(selectInstructionSet, "selectable_addr");
+            // selectAddr = new AddressingModeProblem(selectSymbolFromRadioButton, "selectable_addr");
             x86Instr = new InstructionProblem(() => InstructionSet.x86_64, "x86_instr");
             armInstr = new InstructionProblem(() => InstructionSet.A64, "arm_instr");
+            // selectInstr = new InstructionProblem(selectSymbolFromRadioButton, "selectable_instr");
         }
 
         window.onload = init;

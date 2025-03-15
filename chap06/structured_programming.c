@@ -4,35 +4,32 @@
 
 #include <stdbool.h>
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunknown-pragmas"
-#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
-long ifonly (long x) {
+long ifonly(long x) {
     long y = 3;
-    if (x>3)
-        y=x+3;
-    return x+y;
+    if (x > 3)
+        y = x + 3;
+    return x + y;
 }
 
-long ifelse (long x) {
-    long y=2;
-    if (x>0)
-        y=y+3;
+long ifelse(long x) {
+    long y = 2;
+    if (x > 0)
+        y = y + 3;
     else
-        y=x*3;
+        y = x * 3;
     y = -y;
     return y;
 }
 
-long ifelseifelse (long x, long y) {
+long ifelseifelse(long x, long y) {
     long z;
-    if (x>y)
-        z = x+3;
-    else if (x<y)
-        z = x*3;
+    if (x > y)
+        z = x + 3;
+    else if (x < y)
+        z = x * 3;
     else
         z = 200;
-    z = x+y*z;
+    z = x + y * z;
     return z;
 }
 
@@ -41,40 +38,40 @@ long conditional_assignment(bool condition) {
 }
 
 long scalar_difference(long x, long y) {
-    return x>y ? x-y : y-x;
+    return x > y ? x - y : y - x;
 }
 
 long doloop(/*long x, long y*/) {
-    long x=2;
-    long y=15;
+    long x = 2;
+    long y = 15;
     do {
-        x = x+y;
-        y = y-1;
-    } while (y>0);
+        x = x + y;
+        y = y - 1;
+    } while (y > 0);
     return x;
 }
+
 long whileloop1(long x, long y) {
-    while (y>0) {
-        x = x+y;
-        y = y-1;
+    while (y > 0) {
+        x = x + y;
+        y = y - 1;
     }
     return x;
 }
 
 long whileloop2() {
-    long x=2;
-    long y=15;
-    while (y>0) {
-        x = x+y;
-        y = y-1;
+    long x = 2;
+    long y = 15;
+    while (y > 0) {
+        x = x + y;
+        y = y - 1;
     }
     return x;
 }
 
-
 long switchcase(long x) {
-    long y=0;
-    switch(x) {
+    long y = 0;
+    switch (x) {
         case 0:
             y = -52;
             break;
@@ -82,26 +79,25 @@ long switchcase(long x) {
             y = 52;
             break;
         case 2:
-            y = x+3;
+            y = x + 3;
         case 3:
-            y = y*y;
+            y = y * y;
             break;
         case 4:
         case 5:
-            y = x+y;
+            y = x + y;
             break;
         case 6:
-            y = x-y;
+            y = x - y;
             break;
         case 8:
-            y = x*x;
+            y = x * x;
             break;
         default:
-            y = y-x;
+            y = y - x;
     }
-    return x*y;
+    return x * y;
 }
-
 
 long simplerswitchcase(long x) {
     long y;
@@ -125,7 +121,6 @@ long simplerswitchcase(long x) {
     return y;
 }
 
-
 long briefswitchcase(long x) {
     long y;
     switch(x) {
@@ -140,8 +135,6 @@ long briefswitchcase(long x) {
     }
     return y*x;
 }
-
-
 
 long lengthyswitchcase(long x) {
     long y;
@@ -170,5 +163,3 @@ long lengthyswitchcase(long x) {
     }
     return y;
 }
-
-#pragma clang diagnostic pop

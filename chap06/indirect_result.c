@@ -1,9 +1,4 @@
-﻿#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunknown-pragmas"
-#pragma ide diagnostic ignored "UnusedValue"
-#pragma ide diagnostic ignored "UnusedLocalVariable"
-#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
-/*
+﻿/*
  * indirect_result.c (c) 2018-20 Christopher A. Bohn
  */
 
@@ -24,6 +19,5 @@ foo bar(int a, long b, long c, long d) {
 }
 
 void quux() {
-    foo x = bar(2,3,4,5);
+    foo x = bar(2, 3, 4, 5);
 }
-#pragma clang diagnostic pop

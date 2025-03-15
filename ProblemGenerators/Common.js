@@ -24,7 +24,12 @@ const radixPrefixes = ["",
     "", "", "", "",
     "", "", "", "",
     "", "", "", ""
-]
+];
+
+metaVariables = [
+    "foo", "bar", "baz", "plugh", "xyzzy", "quux", "thud",
+    "grault", "garply", "corge", "fred", "waldo", "blep"
+];
 
 const Operations = {
     UserSelected: Symbol.for("UserSelected"),
@@ -67,6 +72,38 @@ const InstructionSet = {
     A64: Symbol.for("A64"),
     T32: Symbol.for("T32"),
 }
+
+const Types = {
+    Char: Symbol.for("char"),
+    Short: Symbol.for("short"),
+    Int: Symbol.for("int"),
+    Long: Symbol.for("long"),
+    Float: Symbol.for("float"),
+    Double: Symbol.for("double"),
+    Pointer: Symbol.for("pointer"),
+}
+
+const TypeSizes32Bit = new Map([
+    [Types.Char, 1],
+    [Types.Short, 2],
+    [Types.Int, 4],
+    [Types.Long, 4],
+    [Types.Float, 4],
+    [Types.Double, 8],
+    [Types.Pointer, 4],
+]);
+
+const TypeSizes64Bit = new Map([
+    [Types.Char, 1],
+    [Types.Short, 2],
+    [Types.Int, 4],
+    [Types.Long, 8],
+    [Types.Float, 4],
+    [Types.Double, 8],
+    [Types.Pointer, 8],
+]);
+
+
 
 function insertDigitSeparators(valueString, groupingSize) {
     let valueCharacters = valueString.split('');
@@ -147,4 +184,22 @@ function parseBinaryFloat(string) {
         let fraction = parseInt(fractionString, 2) / (1 << fractionString.length);
         return (isNegative ? -1 : 1) * (integer + fraction);
     }
+}
+
+function selectSymbolFromRadioButton(elementPrefix) {
+    // TODO: Can the chapter 2 practice problems for bitwise operations and bitshifts be adapted to use this function?
+    if (elementPrefix === undefined) {
+        alert("When calling selectInstructionSet(), you must provide an elementPrefix");
+        console.error("When calling selectInstructionSet(), you must provide an elementPrefix");
+    }
+    let selectionValue = null;
+    let i = 0;
+    while (selectionValue === null) {
+        let button = document.getElementById(elementPrefix + "_selection" + i);
+        if (button !== null && button.checked) {
+            selectionValue = Symbol.for(button.value);
+        }
+        i += 1;
+    }
+    return selectionValue;
 }

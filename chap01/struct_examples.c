@@ -18,15 +18,15 @@ typedef struct {
     suits suit;
 } card;
 
-void displayHat( struct hat *the_hat ) {
-    printf( "Size %d %s hat.\n", (*the_hat).size, the_hat->color);
+void displayHat(struct hat *the_hat) {
+    printf("Size %d %s hat.\n", (*the_hat).size, the_hat->color);
 }
 
 int main() {
     struct hat h1, h2;
     h1.size = 3;
     h1.color = "blue";
-    printf("size=%d, color=%s\n",h1.size, h1.color);
+    printf("size=%d, color=%s\n", h1.size, h1.color);
     displayHat(&h1);
 
     day d = MONDAY;

@@ -13,6 +13,6 @@ int main() {
 
 void is_zero(int x) {
     printf("x is %d\n", x);
-    if (x=0) printf("x is zero\n");
+    if (x = 0) printf("x is zero\n");
     else printf("x is not zero\n");
 }

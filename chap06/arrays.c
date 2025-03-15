@@ -2,9 +2,6 @@
  * arrays.c (c) 2018-20 Christopher A. Bohn
  */
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunknown-pragmas"
-#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 int *get_address(int *foo, long j) {
     return &foo[j];
 }
@@ -19,7 +16,7 @@ int nested_array0(long col, int array[][col], long i, long j) {
 
 long nested_array1(long i, long j) {
     long bar[5][7];
-    long x=bar[i][j];
+    long x = bar[i][j];
     return x;
 }
 
@@ -30,12 +27,12 @@ long nested_array2(long i, long j) {
 
 long dynamic_nested_array(long i, long j, long r, long c) {
     long baz[r][c];
-    long x=baz[i][j];
+    long x = baz[i][j];
     return x;
 }
 
 long iliffe_vector1(long i, long j, long **baz) {
-    long x=baz[i][j];
+    long x = baz[i][j];
     return x;
 }
 
@@ -61,4 +58,3 @@ long iterate2(long **A) {
     return sum;
 }
 */
-#pragma clang diagnostic pop

@@ -46,7 +46,7 @@ void using_if(int value) {
 }
 
 int main(int argc, const char **argv) {
-    int value = (int)strtol(argv[1], NULL, 0);
+    int value = (int) strtol(argv[1], NULL, 0);
     printf("%d is ", value);
     using_if(value);
     printf("\n");

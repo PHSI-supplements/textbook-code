@@ -1,0 +1,187 @@
+<!--
+ -- Random Problem Generators (c) 2020-24 Christopher A. Bohn
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chapter 6 Practice Problems</title>
+</head>
+<body>
+    <h1>Chapter 6 Randomly-Generated Practice Problems</h1>
+
+    <div id="struct_alignment">
+        <h2>Struct alignment Practice Problem</h2>
+        <p>For this practice problem, assume the data sizes for a 64-bit system and the data alignment rules as described in the chapter text.
+        Specifically:</p>
+        <ul>
+            <li>A <code>char</code> occupies 1 byte and can be stored at any address</li>
+            <li>A <code>short</code> occupies 2 bytes and must be aligned on a 2-byte boundary</li>
+            <li>An <code>int</code> occupies 4 bytes and must be aligned on a 4-byte boundary</li>
+            <li>A <code>long</code> occupies 8 bytes and must be aligned on an 8-byte boundary</li>
+            <li>A <code>float</code> occupies 4 bytes and must be aligned on a 4-byte boundary</li>
+            <li>A <code>double</code> occupies 8 bytes and must be aligned on an 8-byte boundary</li>
+            <li>A pointer occupies 8 bytes and must be aligned on an 8-byte boundary</li>
+        </ul>
+        <p>Consider this <code>struct</code> declaration:</p>
+        <pre><code id="struct_declaration"></code></pre>
+        <p id="struct_question"></p>
+        <span id="struct_answer_prefix"></span><input type="text" id="struct_answer"><span id="struct_answer_suffix"></span><br>
+        <input type="button" id="struct_check" value="Check Answer">
+        <input type="button" id="struct_again" value="Try Another Example">
+        <p id="struct_feedback"></p>
+    </div>
+
+
+    <div id="array_indexing">
+        <h2>Array Indexing Practice Problem</h2>
+        <p>For this practice problem, assume the data sizes for a 64-bit system.
+            Specifically:</p>
+        <ul>
+            <li>A <code>char</code> occupies 1 byte</li>
+            <li>A <code>short</code> occupies 2 bytes</li>
+            <li>An <code>int</code> occupies 4 bytes</li>
+            <li>A <code>long</code> occupies 8 bytes</li>
+        </ul>
+        <p>Consider this array declaration:</p>
+        <pre><code id="array_declaration"></code></pre>
+        <p id="array_question"></p>
+        0x<input type="text" id="array_answer"><br>
+        <input type="button" id="array_check" value="Check Answer">
+        <input type="button" id="array_again" value="Try Another Example">
+        <p id="array_feedback"></p>
+    </div>
+
+
+    <div id="nested_array_indexing">
+        <h2>2D Nested Array Indexing Practice Problem</h2>
+        <p>For this practice problem, assume the data sizes for a 64-bit system.
+            Specifically:</p>
+        <ul>
+            <li>A <code>char</code> occupies 1 byte</li>
+            <li>A <code>short</code> occupies 2 bytes</li>
+            <li>An <code>int</code> occupies 4 bytes</li>
+            <li>A <code>long</code> occupies 8 bytes</li>
+        </ul>
+        <p>Consider this array declaration:</p>
+        <pre><code id="nested_array_declaration"></code></pre>
+        <p id="nested_array_question"></p>
+        <table>
+            <tr>
+                <td>Size of a row:</td>
+                <td><input type="text" id="nested_array_row_size"> bytes</td>
+            </tr>
+            <tr>
+                <td>Base address of <code id="nested_array_row"></code>:</td>
+                <td>0x<input type="text" id="nested_array_row_address"></td>
+            </tr>
+            <tr>
+                <td>Address of <code id="nested_array_element"></code>:</td>
+                <td>0x<input type="text" id="nested_array_element_address"></td>
+            </tr>
+        </table>
+        <input type="button" id="nested_array_check" value="Check Answer">
+        <input type="button" id="nested_array_again" value="Try Another Example">
+        <p id="nested_array_feedback"></p>
+    </div>
+
+
+    <div id="find_dimensions">
+        <h2>Find the Array Dimensions Practice Problems</h2>
+        <p>Select an instruction set, and click on "Try Another Example"</p>
+        <input type="radio" id="find_dimensions_selection0" name="find_dimensions_ISA_selection" value="x86_64" checked>
+        <label for="find_dimensions_selection0">x86-64</label>
+<!--        <input type="radio" id="find_dimensions_selection1" name="find_dimensions_ISA_selection" value="IA32">-->
+<!--        <label for="find_dimensions_selection1">IA32</label>-->
+        <input type="radio" id="find_dimensions_selection2" name="find_dimensions_ISA_selection" value="A64">
+        <label for="find_dimensions_selection2">A64</label>
+<!--        <input type="radio" id="find_dimensions_selection3" name="find_dimensions_ISA_selection" value="T32">-->
+<!--        <label for="find_dimensions_selection3">T32</label>-->
+        <p>Consider the following code snippet:</p>
+        <pre><code>
+#define M (...)
+#define N (...)
+
+long foo(long x, long y, long A[M][N], long B[N][M]) {
+    return A[x][y] + B[y][x];
+}
+        </code></pre>
+        <p>
+            When compiled, the following assembly code is produced.
+            (The "notes" text boxes are provided for your convenience but are not checked.)
+        </p>
+        <pre id="find_dimensions_assembly"></pre>
+        <p>What values are <code>M</code> and <code>N</code> defined as?</p>
+        <pre>
+<code>#define M (</code><input type="text" id="find_dimensions_M_answer" size="3"><code>)</code>
+<code>#define N (</code><input type="text" id="find_dimensions_N_answer" size="3"><code>)</code>
+        </pre>
+        <input type="button" id="find_dimensions_check" value="Check Answer">
+        <input type="button" id="find_dimensions_again" value="Try Another Example">
+        <p id="find_dimensions_feedback"></p>
+    </div>
+
+
+    <div id="structured_code">
+        <h2>Structured Code Practice Problems</h2>
+        <p>Consider the following code snippet:</p>
+        <pre><code id="structured_code_original_code"></code></pre>
+        <p>This is the equivalent <code>goto</code>-type code:</p>
+        <pre id="structured_code_goto_code"></pre>
+        <p>Use the drop-down menus to give the <code>goto</code>-style code the same functionality as the original code.</p>
+        <input type="button" id="structured_code_check" value="Check Answer">
+        <input type="button" id="structured_code_again" value="Try Another Example">
+        <p id="structured_code_feedback"></p>
+    </div>
+
+
+    <div id="stack_manipulation">
+        <h2>Stack Manipulation and Function Call/Return Practice</h2>
+        <p>Select an instruction set, and click on "Try Another Example"</p>
+        <input type="radio" id="stack_selection0" name="stack_ISA_selection" value="x86_64" checked>
+        <label for="stack_selection0">x86-64</label>
+<!--        <input type="radio" id="stack_selection1" name="stack_ISA_selection" value="IA32">-->
+<!--        <label for="stack_selection1">IA32</label>-->
+        <input type="radio" id="stack_selection2" name="stack_ISA_selection" value="A64">
+        <label for="stack_selection2">A64</label>
+<!--        <input type="radio" id="stack_selection3" name="stack_ISA_selection" value="T32">-->
+<!--        <label for="stack_selection3">T32</label>-->
+        <p>Suppose that these are the contents of selected registers and memory locations:</p>
+        <table id="stack_data"></table>
+        <p>Consider these assembly code instructions at the indicated memory addresses:</p>
+        <pre><code id="stack_problem"></code></pre>
+        <p>Modify the contents above to reflect the register and/or memory contents present after the <span id="stack_instruction"></span> instruction has executed. (Only change the contents of the register(s)/address(es) affected by the instruction.)</p>
+        <input type="button" id="stack_check" value="Check Answer">
+        <input type="button" id="stack_again" value="Try Another Example">
+        <p id="stack_feedback"></p>
+    </div>
+
+
+    <script src="Common.js"></script>
+    <script src="AssemblyProblems.js"></script>
+    <script src="DataStructures.js"></script>
+    <script src="ArrayDimensionProblem.js"></script>
+    <script src="CodeStructures.js"></script>
+    <script>
+        let structProblem;
+        let array1dProblem;
+        let array2dProblem;
+        let arrayDimensionProblem;
+        let compilerCookbookProblem;
+        let stackProblem;
+
+        function init() {
+            structProblem = new StructProblem("struct");
+            array1dProblem = new OneDimensionalArrayProblem("array");
+            array2dProblem = new NestedArrayProblem("nested_array");
+            arrayDimensionProblem = new ArrayDimensionProblem(selectSymbolFromRadioButton, "find_dimensions");
+            compilerCookbookProblem = new CodeStructureProblem("structured_code");
+            stackProblem = new StackAndCallProblem(selectSymbolFromRadioButton, "stack");
+        }
+
+        window.onload = init;
+    </script>
+
+</body>
+</html>

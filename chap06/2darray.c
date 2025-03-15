@@ -1,5 +1,5 @@
 /**
- * 2darray.c (c) 2018-20 Christopher A. Bohn
+ * 2darray.c (c) 2018-24 Christopher A. Bohn
  *
  * Nested Array Problem Generator
  *
@@ -8,17 +8,20 @@
  * 3. Extract foo's assembly code from 2darray.s
  */
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunknown-pragmas"
-#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
-#define M 6
-#define N 7
+#define M (5)
+#define N (4)
 
 long A[M][N];
 long B[N][M];
 
-long foo(long i, long j) {
-    return A[i][j] + B[j][i];
+long nested_global_arrays(long x, long y) {
+    return A[x][y] + B[y][x];
 }
 
-#pragma clang diagnostic pop
+long nested_arrays_as_arguments(long x, long y, long C[][N], long D[][M]) {
+    return C[x][y] + D[y][x];
+}
+
+long nested_VLAs(long x, long y, long m, long n, long C[][n], long D[][m]) {
+    return C[x][y] + D[y][x];
+}

@@ -19,9 +19,9 @@ int main() {
     long *first_addr = NULL;
     printf("              Main stack frame at %14p\n", &main_var);
     print_stack_address(first_addr);
-    long *small = (long *)malloc(16);
+    long *small = (long *) malloc(16);
     printf("Small malloc'd variable stored at %14p\n", small);
-    long *large = (long *)malloc(1 << 24);
+    long *large = (long *) malloc(1 << 24);
     printf("Large malloc'd variable stored at %14p\n", large);
     printf("        Called function stored at %14p\n", print_stack_address);
     printf("        Global variable stored at %14p\n", &global_variable);

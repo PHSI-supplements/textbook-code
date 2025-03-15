@@ -2,23 +2,9 @@
  * Random Problem Generators (c) 2020-24 Christopher A. Bohn
  */
 
-function selectInstructionSet(elementPrefix) {
-    let selectionValue = null;
-    let i = 0;
-    while (selectionValue === null) {
-        let button = document.getElementById(elementPrefix + "_selection" + i);
-        if (button !== null && button.checked) {
-            selectionValue = Symbol.for(button.value);
-        }
-        i += 1;
-    }
-    return selectionValue;
-}
-
-
 function selectContentParameters(instructionSet, preferredScale = -1) {
     let scale = preferredScale === -1 ? Math.floor(Math.random() * 4) : preferredScale;
-    let baseRegisters = []
+    let baseRegisters = [];
     let indexRegisters = [];
     switch (instructionSet) {
         case InstructionSet.IA32:
@@ -66,7 +52,11 @@ function createContent(addressRegisters, dataRegisters, leastAddress, greatestAd
 }
 
 
-function displayContents(table, contents, registerNames, leastAddress, greatestAddress, scale) {
+function displayContents(table, contents, registerNames, leastAddress, greatestAddress, scale, editable = false) {
+    let editableFields = null;
+    if (editable) {
+        editableFields = new Map();
+    }
     table.innerHTML = "";
     // const tableBody = document.createElement("tbody");
     let row = document.createElement("tr");
@@ -108,8 +98,20 @@ function displayContents(table, contents, registerNames, leastAddress, greatestA
         cell = document.createElement("td");
         cell.setAttribute("align", "right");
         if (i < registerNames.length) {
-            cellContent = document.createTextNode("0x" + contents.get(registerNames[i]).toString(16).toUpperCase());
-            cell.appendChild(cellContent);
+            if (editable) {
+                cellContent = document.createTextNode("-- 0x");
+                cell.appendChild(cellContent);
+                cellContent = document.createElement("input");
+                cellContent.setAttribute("type", "text");
+                cellContent.setAttribute("id", this.elementPrefix + registerNames[i].replaceAll("%", ":"));
+                cellContent.setAttribute("size", "6");
+                cellContent.setAttribute("value", contents.get(registerNames[i]).toString(16).toUpperCase());
+                editableFields.set(registerNames[i], cellContent);
+                cell.appendChild(cellContent);
+            } else {
+                cellContent = document.createTextNode("0x" + contents.get(registerNames[i]).toString(16).toUpperCase());
+                cell.appendChild(cellContent);
+            }
         }
         row.appendChild(cell);
         cell = document.createElement("td");
@@ -124,14 +126,27 @@ function displayContents(table, contents, registerNames, leastAddress, greatestA
         cell = document.createElement("td");
         cell.setAttribute("align", "right");
         if (address >= leastAddress) {
-            cellContent = document.createTextNode("0x" + contents.get(address).toString(16).toUpperCase());
-            cell.appendChild(cellContent);
+            if (editable) {
+                cellContent = document.createTextNode("-- 0x");
+                cell.appendChild(cellContent);
+                cellContent = document.createElement("input");
+                cellContent.setAttribute("type", "text");
+                cellContent.setAttribute("id", this.elementPrefix + address.toString());
+                cellContent.setAttribute("size", "6");
+                cellContent.setAttribute("value", contents.get(address).toString(16).toUpperCase());
+                editableFields.set(address, cellContent);
+                cell.appendChild(cellContent);
+            } else {
+                cellContent = document.createTextNode("0x" + contents.get(address).toString(16).toUpperCase());
+                cell.appendChild(cellContent);
+            }
         }
         row.appendChild(cell);
         table.appendChild(row);
         address -= (1 << scale);
         i++;
     }
+    return editableFields;
 }
 
 
@@ -383,7 +398,7 @@ class InstructionProblem {
 
     generateInstruction(address, baseRegisters, indexRegisters) {
         let registers = baseRegisters.concat(indexRegisters);
-        let instructionSet = this.getInstructionSet();
+        let instructionSet = this.getInstructionSet(this.elementPrefix);
         let operations = ["move", "load", "store", "pointer", "add", "subtract"];
         let instructions = [];
         let argumentCounts = [];
@@ -784,11 +799,274 @@ class InstructionProblem {
         this.destinationTypeSelection = event.target.value;
         if (this.destinationTypeSelection === "memory") {
             this.destinationPrefix.innerHTML = "0x";
-        } else if ((this.getInstructionSet() === InstructionSet.IA32 || this.getInstructionSet() === InstructionSet.x86_64) && this.destinationTypeSelection === "register") {
+        } else if ((this.getInstructionSet(this.elementPrefix) === InstructionSet.IA32 || this.getInstructionSet(this.elementPrefix) === InstructionSet.x86_64) && this.destinationTypeSelection === "register") {
             this.destinationPrefix.innerHTML = "%";
         } else {
             this.destinationPrefix.innerHTML = "";
         }
+    }
+
+    handleKeyPress(event) {
+        if (event.keyCode === 13) {
+            this.checkButton.click();
+        }
+    }
+}
+
+
+class StackAndCallProblem {
+    constructor(getInstructionSet, elementPrefix) {
+        this.getInstructionSet = getInstructionSet;
+        this.elementPrefix = elementPrefix;
+        this.feedbackArea = document.getElementById(elementPrefix + "_feedback");
+        this.checkButton = document.getElementById(elementPrefix + "_check");
+        let tryAgainButton = document.getElementById(elementPrefix + "_again");
+        this.checkButton.onclick = this.checkAnswer.bind(this);
+        tryAgainButton.onclick = this.generateProblem.bind(this);
+        this.generateProblem();
+    }
+
+    generateInstruction(dataRegisters, stackPointer, programCounter, returnAddressLocation) {
+        let problemArea = document.getElementById(this.elementPrefix + "_problem");
+        let instructionArea = document.getElementById(this.elementPrefix + "_instruction");
+        let instructionSet = this.getInstructionSet(this.elementPrefix);
+        let operations = ["push", "pop", "call", "return"];
+        let instructions = []
+        let instructionWidths;
+        let dataWidth;
+        let instructionAddress = this.initialContents.get(programCounter);
+        switch (instructionSet) {
+            case InstructionSet.IA32:
+                instructions = ["pushl SOURCE1", "popl DESTINATION1", "call TARGET", "ret"];
+                instructionWidths = [1, 1, 5, 1];
+                dataWidth = 4;
+                break;
+            case InstructionSet.x86_64:
+                instructions = ["pushq SOURCE1", "popq DESTINATION1", "call TARGET", "ret"];
+                instructionWidths = [1, 1, 5, 1];   // push/pop require 2 bytes for r8-r15
+                dataWidth = 8;
+                break;
+            case InstructionSet.T32:
+                instructions = ["push {SOURCE1}", "pop {DESTINATION1}", "bl.n TARGET", "bx lr"];
+                instructionWidths = [2, 2, 2, 2];   // bl.w is a 4-byte instruction (as is, it seems, bl for a backwards branch) -- don't want to add that complication
+                dataWidth = 4;
+                break;
+            case InstructionSet.A64:
+                instructions = ["stp SOURCE1, SOURCE2, [sp, -16]!", "ldp DESTINATION1, DESTINATION2, [sp], 16", "bl TARGET", "ret"];
+                instructionWidths = [4, 4, 4, 4];
+                dataWidth = 8;
+                break;
+            default:
+                alert("Unknown instruction set: " + instructionSet.toString());
+                console.error("Unknown instruction set: " + instructionSet.toString());
+        }
+        this.newContents = new Map();
+        let operationIndex = Math.floor(Math.random() * operations.length);
+        let operation = operations[operationIndex];
+        let instruction;
+        let instructionWidth = instructionWidths[operationIndex];
+        let topOfStack = this.initialContents.get(stackPointer);
+        switch (operation) {
+            case "push":
+                let sources = [dataRegisters[Math.floor(Math.random() * dataRegisters.length)]];
+                if (instructionSet !== InstructionSet.A64) {
+                    sources.push("n/a");
+                } else {
+                    while (sources.length === 1) {
+                        let source = dataRegisters[Math.floor(Math.random() * dataRegisters.length)];
+                        if (!sources.includes(source)) {
+                            sources.push(source);
+                        }
+                    }
+                }
+                instruction = instructions[operationIndex].replaceAll("SOURCE1", sources[0]).replaceAll("SOURCE2", sources[1]);
+                if (instructionSet === InstructionSet.x86_64 && /\d/.test(sources[0][2])) {
+                    instructionWidth++;
+                }
+                if (sources[1] === "n/a") {
+                    sources.pop();
+                }
+                sources.reverse().forEach((source) => {
+                    topOfStack -= dataWidth;
+                    this.newContents.set(stackPointer, topOfStack);
+                    this.newContents.set(topOfStack, this.initialContents.get(source));
+                });
+                break;
+            case "pop":
+                let destinations = [dataRegisters[Math.floor(Math.random() * dataRegisters.length)]];
+                if (instructionSet !== InstructionSet.A64) {
+                    destinations.push("n/a");
+                } else {
+                    while (destinations.length === 1) {
+                        let destination = dataRegisters[Math.floor(Math.random() * dataRegisters.length)];
+                        if (!destinations.includes(destination)) {
+                            destinations.push(destination);
+                        }
+                    }
+                }
+                instruction = instructions[operationIndex].replaceAll("DESTINATION1", destinations[0]).replaceAll("DESTINATION2", destinations[1]);
+                if (instructionSet === InstructionSet.x86_64 && /\d/.test(destinations[0][2])) {
+                    instructionWidth++;
+                }
+                if (destinations[1] === "n/a") {
+                    destinations.pop();
+                }
+                destinations.forEach((destination) => {
+                    this.newContents.set(destination, this.initialContents.get(topOfStack));
+                    topOfStack += dataWidth;
+                    this.newContents.set(stackPointer, topOfStack);
+                });
+                break;
+            case "call":
+                let scale = Math.log2(dataWidth);
+                let targetName = metaVariables[Math.floor(Math.random() * metaVariables.length)];
+                let targetAddress = 0x1000 + (1 << scale) * Math.floor(Math.random() * 0x2000 / (1 << scale));
+                instruction = instructions[operationIndex].replaceAll("TARGET", `${targetName} <0x${targetAddress.toString(16)}>`);
+                if (Number.isInteger(returnAddressLocation)) {
+                    // return address is on the stack;
+                    topOfStack -= dataWidth;
+                    this.newContents.set(stackPointer, topOfStack);
+                    returnAddressLocation = topOfStack;
+                }
+                this.newContents.set(returnAddressLocation, this.initialContents.get(programCounter) + instructionWidth);
+                this.newContents.set(programCounter, targetAddress);
+                break;
+            case "return":
+                instruction = instructions[operationIndex];
+                this.newContents.set(programCounter, this.initialContents.get(returnAddressLocation));
+                if (Number.isInteger(returnAddressLocation)) {
+                    // return address is on the stack
+                    topOfStack += dataWidth;
+                    this.newContents.set(stackPointer, topOfStack);
+                }
+                break;
+            default:
+                alert("Unexpected operation selected: " + operation);
+                console.error("Unexpected operation selected: " + operation);
+        }
+        let nextInstructionAddress = instructionAddress + instructionWidth;
+        // if (this.newContents.get(programCounter) === undefined) {
+        if (!this.newContents.has(programCounter)) {
+            this.newContents.set(programCounter, nextInstructionAddress);
+        }
+        // TODO: randomize the second (unexecuted) instruction
+        problemArea.innerHTML = `0x${instructionAddress.toString(16).toUpperCase()}: ${instruction}\n0x${nextInstructionAddress.toString(16).toUpperCase()}: nop`;
+        // instructionArea.innerHTML = `<code>${instruction.split(" ")[0]}</code>`;
+        instructionArea.innerHTML = operation;
+    }
+
+
+    generateProblem() {
+        this.feedbackArea.innerHTML = "&nbsp;"
+        let instructionSet = this.getInstructionSet(this.elementPrefix);
+        let scale = 0;
+        let dataRegisters = [];
+        let addressRegisters = [];
+        let topOfStack = 0x4000 + 16 * Math.floor(Math.random() * 0xBF0);
+        let knownContents = new Map();
+        let stackPointer;
+        let programCounter;
+        let returnAddressLocation;
+        switch (instructionSet) {
+            case InstructionSet.IA32:
+                dataRegisters = ["%ebx", "%edi", "%esi"];
+                addressRegisters = ["%esp", "%eip"];
+                scale = 2;
+                stackPointer = "%esp";
+                programCounter = "%eip";
+                returnAddressLocation = topOfStack;
+                break;
+            case InstructionSet.x86_64:
+                dataRegisters = ["%rbx", "%r12", "%r13"];
+                addressRegisters = ["%rsp", "%rip"];
+                scale = 3;
+                stackPointer = "%rsp";
+                programCounter = "%rip";
+                returnAddressLocation = topOfStack;
+                break;
+            case InstructionSet.T32:
+                dataRegisters = ["R4", "R5",];
+                addressRegisters = ["LR", "SP", "PC"];
+                scale = 2;
+                stackPointer = "SP";
+                programCounter = "PC";
+                returnAddressLocation = "LR";
+                break;
+            case InstructionSet.A64:
+                dataRegisters = ["X19", "X20",];
+                addressRegisters = ["LR", "SP", "PC"];
+                scale = 3;
+                stackPointer = "SP";
+                programCounter = "PC";
+                returnAddressLocation = "LR";
+                break;
+            default:
+                alert("Unknown instruction set: " + instructionSet.toString());
+                console.error("Unknown instruction set: " + instructionSet.toString());
+        }
+        let instructionAddress = 0x1000 + (1 << scale) * Math.floor(Math.random() * 0x2000 / (1 << scale));
+        let returnAddress = 0x1000 + (1 << scale) * Math.floor(Math.random() * 0x2000 / (1 << scale));
+        knownContents.set(stackPointer, topOfStack);
+        knownContents.set(programCounter, instructionAddress);
+        knownContents.set(returnAddressLocation, returnAddress);
+        this.initialContents = createContent(addressRegisters, dataRegisters,
+            topOfStack - (2 << scale), topOfStack + (2 << scale),
+            knownContents, scale);
+        let table = document.getElementById(this.elementPrefix + "_data");
+        this.contentFields = displayContents(table, this.initialContents, dataRegisters.concat(addressRegisters), topOfStack - (2 << scale), topOfStack + (2 << scale), scale, true);
+        let resetButton = document.createElement("button");
+        resetButton.innerHTML = "Reset Contents";
+        resetButton.onclick = this.resetContents.bind(this);
+        let row = document.createElement("tr");
+        let cell = document.createElement("td");
+        row.appendChild(cell);
+        cell = document.createElement("td");
+        row.appendChild(cell);
+        cell = document.createElement("td");
+        cell.setAttribute("align", "center");
+        cell.appendChild(resetButton);
+        row.appendChild(cell);
+        cell = document.createElement("td");
+        row.appendChild(cell);
+        cell = document.createElement("td");
+        row.appendChild(cell);
+        table.appendChild(row);
+        this.generateInstruction(dataRegisters, stackPointer, programCounter, returnAddressLocation);
+    }
+
+    checkAnswer() {
+        // TODO: provide feedback. For example, ldp/stp in reverse order, using the current address as the return address, move value/stack pointer update in reverse order
+        this.feedbackArea.innerHTML = "";
+        this.newContents.forEach((correctValue, key) => {
+            let keyString = Number.isInteger(key) ? "0x" + key.toString(16).toUpperCase() : key;
+            let answerString = this.contentFields.get(key).value;
+            if (answerString.substring(0, 2).toLowerCase() === "0x") {
+                answerString = answerString.substring(2);
+            }
+            let answerValue = parseInt(answerString, 16);
+            if (isNaN(answerValue)) {
+                this.feedbackArea.innerHTML += `${keyString}: Needs a value.<br>`
+            } else if (answerValue === correctValue) {
+                this.feedbackArea.innerHTML += `${keyString}: Correct!<br>`;
+            } else if (answerValue === this.initialContents.get(key)) {
+                this.feedbackArea.innerHTML += `${keyString}: Needs to be updated.<br>`;
+            } else {
+                this.feedbackArea.innerHTML += `${keyString}: Was not correctly updated.<br>`;
+            }
+        });
+        this.initialContents.forEach((value, key) => {
+            let answerValue = parseInt(this.contentFields.get(key).value, 16);
+            if (!this.newContents.has(key) && answerValue !== value) {
+                let keyString = Number.isInteger(key) ? "0x" + key.toString(16).toUpperCase() : key;
+                this.feedbackArea.innerHTML += `${keyString}: Should not have changed.<br>`;
+            }
+        })
+    }
+
+    resetContents() {
+        this.initialContents.forEach((value, key) => {
+            this.contentFields.get(key).value = value.toString(16).toUpperCase();
+        });
     }
 
     handleKeyPress(event) {

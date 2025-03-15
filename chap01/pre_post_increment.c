@@ -6,15 +6,15 @@
 
 void post_increment() {
     int primes[] = {2, 3, 5, 7, 11, 13};
-    int i=0;
-    int p=primes[i++];
+    int i = 0;
+    int p = primes[i++];
     printf("p==%d i==%d\n", p, i);
 }
 
 void pre_increment() {
     int primes[] = {2, 3, 5, 7, 11, 13};
-    int i=0;
-    int p=primes[++i];
+    int i = 0;
+    int p = primes[++i];
     printf("p==%d i==%d\n", p, i);
 }
 
