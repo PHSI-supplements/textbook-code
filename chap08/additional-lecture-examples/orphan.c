@@ -1,5 +1,5 @@
 /*
- * chap07/lecture-examples.c (c) 2021 Christopher A. Bohn
+ * chap07/orphan.c (c) 2021 Christopher A. Bohn
  */
 
 #include <stdio.h>
