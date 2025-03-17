@@ -1,24 +1,24 @@
 [submodule "chap08/gists/VectorMaximum"]
-	path = chap08/gists/VectorMaximum
+	path = chap08/textbook-gists/VectorMaximum
 	url = git@gist.github.com:69a055e05cd547c88a9cc77684f65617.git
 [submodule "chap08/gists/MergeSort"]
-	path = chap08/gists/MergeSort
+	path = chap08/textbook-gists/MergeSort
 	url = git@gist.github.com:ebd5af7f8701af19b5cc453a1c16fe6d.git
 [submodule "chap08/gists/ForkAndWait"]
-	path = chap08/gists/ForkAndWait
+	path = chap08/textbook-gists/ForkAndWait
 	url = git@gist.github.com:3f1a419b9c8a2cbd8ed9b68f8f190f1a.git
 [submodule "chap08/gists/Pipe"]
-	path = chap08/gists/Pipe
+	path = chap08/textbook-gists/Pipe
 	url = git@gist.github.com:627c40a63a091e7bfc80040b53e10792.git
 [submodule "chap08/gists/PthreadCreateAndJoin"]
-	path = chap08/gists/PthreadCreateAndJoin
+	path = chap08/textbook-gists/PthreadCreateAndJoin
 	url = git@gist.github.com:ba7587a5b59dd4c220e518df8477672b.git
 [submodule "chap08/gists/PthreadSharedMemory"]
-	path = chap08/gists/PthreadSharedMemory
+	path = chap08/textbook-gists/PthreadSharedMemory
 	url = git@gist.github.com:b1237d49f3d9c51383d0225d99b7baa2.git
 [submodule "chap08/gists/Interleavings"]
-	path = chap08/gists/Interleavings
+	path = chap08/textbook-gists/Interleavings
 	url = git@gist.github.com:a928ab7929e01e1d3ad1a1eb0a365d52.git
 [submodule "chap08/gists/DiningPhilosophers"]
-	path = chap08/gists/DiningPhilosophers
+	path = chap08/textbook-gists/DiningPhilosophers
 	url = git@gist.github.com:1a62b3ce6950dfe869d2e89cce2e6a08.git
