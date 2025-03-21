@@ -22,3 +22,6 @@
 [submodule "chap08/gists/DiningPhilosophers"]
 	path = chap08/textbook-gists/DiningPhilosophers
 	url = git@gist.github.com:1a62b3ce6950dfe869d2e89cce2e6a08.git
+[submodule "chap09/textbook-gists/SignalHandler"]
+	path = chap09/textbook-gists/SignalHandler
+	url = git@gist.github.com:06364b77f7324b943f7bc3592e31d556.git
